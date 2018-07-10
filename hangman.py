@@ -8,10 +8,7 @@ class mainGame():
     def __init__(self, parent):
         self.parent = parent
 
-        with open('words.txt', 'r') as f:
-            words = f.read().split('\n')
-            f.close()
-        self.word = random.choice(words).upper()
+        self.chooseWord()
 
         self.won = False
 
@@ -85,7 +82,15 @@ class mainGame():
         self.img = tk.PhotoImage(file=f'images/{imgNum}.gif')
         self.imgLabel.configure(image=self.img)
 
+    def chooseWord(self):
+        with open('words.txt', 'r') as f:
+            words = f.read().split('\n')
+            f.close()
+        self.word = random.choice(words).upper()
+
     def reset(self):
+        self.chooseWord()
+
         self.textList = []
         for char in range(len(self.word)-1):
             self.textList.append('_ ')
