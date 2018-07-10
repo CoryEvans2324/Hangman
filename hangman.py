@@ -67,6 +67,9 @@ class mainGame():
                 self.changeImg(self.wrongCounter)
                 if self.wrongCounter >= 10:
                     self.wordLabel.configure(text='You Lose!\n' + self.word)
+                    # disable all buttons at end of game
+                    for button in self.buttons:
+                        button.configure(state='disabled')
 
     def updateText(self, char, charIndexes):
         for index in charIndexes:
@@ -101,6 +104,7 @@ class mainGame():
         self.wrongCounter = 0
         self.changeImg(self.wrongCounter)
 
+        # enable all buttons at start of game
         for button in self.buttons:
             button.configure(state='normal')
 
