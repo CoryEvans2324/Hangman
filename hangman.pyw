@@ -24,7 +24,6 @@ class mainGame():
         # GUESS WORD LABEL
         # A tk.Label which holds the word as underscores. (and with spaces in-between characters)
         # Example: C _ E _ _ T S
-
         # The actual word label witch holds the text.
         self.wordLabel = tk.Label(self.parent, text=self.text, width=self.width, font=('Source', 18, 'bold'),
                                   bg='black', fg='white', anchor=tk.CENTER)
