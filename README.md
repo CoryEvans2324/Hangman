@@ -7,3 +7,13 @@ This is made using the module [tkinter](https://wiki.python.org/moin/TkInter)
 A word is selected randomly from the file `words.txt`.
 
 All states (images) of the hung man are in the folder `images`.
+
+# TODO
+
+I want to add a main menu to my program.
+
+    With this I can add in different categories:
+
+        Names
+        Food
+        Dinosaurs
