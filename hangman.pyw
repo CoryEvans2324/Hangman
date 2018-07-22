@@ -79,6 +79,8 @@ class mainGame():
 
             if not '_' in self.text: # you win as all letters have been revealed. (no more underscores)
                 self.statusLabel.configure(text='You Win!')
+
+                # disable all buttons at end of game
                 for button in self.buttons:
                     button.configure(state='disabled')
 
