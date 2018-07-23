@@ -8,9 +8,11 @@ A word is selected randomly from the file `words.txt`.
 
 All states (images) of the hung man are in the folder `images`.
 
+<br>
+
 ## Functions
 
-### In class mainGame()
+### In class mainGame():
 
 ```
 __init__() is called whenever a mainGame class is created. It is responsible for creating and displaying the buttons of that frame.
@@ -39,6 +41,7 @@ chooseWord() is used to pick a random word from words.txt and store the word in 
 reset() is used to reset the game at any point. It chooses a new word and resets all buttons and labels to default.
 ```
 
+<br>
 
 ## TODO
 
