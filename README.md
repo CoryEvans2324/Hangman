@@ -45,6 +45,8 @@ reset() is used to reset the game at any point. It chooses a new word and resets
 
 ## TODO
 
+Automaticaly reset the main game when the wordSet is changed by the tk.OptionMenu.
+
 I want to add a main menu to my program. And for that I'll add a new branch on github.
 
 With this I can add in different categories:

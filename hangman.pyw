@@ -11,17 +11,21 @@ FONT = ('Source', 18, 'bold')
 class Controller(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
+
+        # Container to hold different frames.
         container = tk.Frame(self)
         container.pack(side='top', fill='both', expand=True)
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
+        # Dictionary for holding different frames.
         self.frames = {}
-        for f in [MainMenu, mainGame]:
+        for f in [MainMenu, MainGame]:
             frame = f(container, self)
             self.frames[f] = frame
             frame.grid(row=0, column=0, stick='nsew')
 
+        # Start on MainMenu frame.
         self.switchToFrame(MainMenu)
 
     def switchToFrame(self, f):
@@ -32,15 +36,17 @@ class Controller(tk.Tk):
 
 class MainMenu(tk.Frame):
     def __init__(self, parent, controller):
-        global wordSet
+        global wordSet # wordSet is defined in this class.
         tk.Frame.__init__(self, parent)
 
+        # different words list.
         wordSetOptions = ['general', 'fruit']
         wordSet = tk.StringVar(parent)
         wordSet.set(wordSetOptions[0])
 
+        # Start button to switch to MainGame
         self.startButton = tk.Button(self, text='START GAME', width=WIDTH, font=FONT,
-                                  bg='black', fg='white', anchor=tk.CENTER, command=lambda: controller.switchToFrame(mainGame))
+                                  bg='black', fg='white', anchor=tk.CENTER, command=lambda: controller.switchToFrame(MainGame))
         self.startButton.grid(row=0, column=0, columnspan=COLUMN_SPLIT)
 
         self.wordSetLabel = tk.Label(self, text='Word list to use:', font=FONT)
@@ -55,7 +61,7 @@ class MainMenu(tk.Frame):
 
 
 # main game class I put this in a class to be able to add different tk.Frames in the future.
-class mainGame(tk.Frame):
+class MainGame(tk.Frame):
     # the __init__ function is called whenever a class object is created.
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
