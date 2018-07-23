@@ -3,12 +3,44 @@ import tkinter as tk
 import random
 from string import ascii_uppercase
 
+WIDTH = 27 # used fot tk widgets.
+COLUMN_SPLIT = 9 # Width of the grid.
+ROW = 2 # A buffer used be the imageLabel and wordLabel, to give room for the alphabet buttons.
+
+class Controller(tk.Tk):
+    def __init__(self, *args, **kwargs):
+        tk.Tk.__init__(self, *args, **kwargs)
+        container = tk.Frame(self)
+        container.pack(side='top', fill='both', expand=True)
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+
+        self.frames = {}
+        for f in [MainMenu, mainGame]:
+            frame = f(container, self)
+            self.frames[f] = frame
+            frame.grid(row=0, column=0, stick='nsew')
+
+        self.switchToFrame(MainMenu)
+
+    def switchToFrame(self, f):
+        frame = self.frames[f]
+        frame.tkraise()
+
+class MainMenu(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.startButton = tk.Button(self, text='Start Game', width=WIDTH, font=('Source', 18, 'bold'),
+                                  bg='black', fg='white', anchor=tk.CENTER, command=lambda: controller.switchToFrame(mainGame))
+        self.startButton.grid(row=0, column=0, columnspan=COLUMN_SPLIT)
+
+
 # main game class I put this in a class to be able to add different tk.Frames in the future.
-class mainGame():
+class mainGame(tk.Frame):
     # the __init__ function is called whenever a class object is created.
-    def __init__(self, parent):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
         self.parent = parent # to be used later for other functions.
-        self.width = 27 # used fot tk widgets.
 
         # starting the game
         self.chooseWord() # pick a word and generate the underscores.
@@ -17,7 +49,7 @@ class mainGame():
         # IMAGE LABEL
         # A tk.Label which holds an image of the current state of the hung man.
         self.img = tk.PhotoImage(file=f'images/{self.wrongCounter}.gif')
-        self.imgLabel = tk.Label(self.parent, image=self.img)
+        self.imgLabel = tk.Label(self, image=self.img)
         self.imgLabel.grid(row=0, column=0, columnspan=COLUMN_SPLIT)
 
 
@@ -25,7 +57,7 @@ class mainGame():
         # A tk.Label which holds the word as underscores. (and with spaces in-between characters)
         # Example: C _ E _ _ T S
         # The actual word label witch holds the text.
-        self.wordLabel = tk.Label(self.parent, text=self.text, width=self.width, font=('Source', 18, 'bold'),
+        self.wordLabel = tk.Label(self, text=self.text, width=WIDTH, font=('Source', 18, 'bold'),
                                   bg='black', fg='white', anchor=tk.CENTER)
         self.wordLabel.grid(row=1, column=0, columnspan=COLUMN_SPLIT, pady=5)
 
@@ -34,7 +66,7 @@ class mainGame():
         letters = list(ascii_uppercase)
         for index in range(len(letters)): # 0 ---> 25
             char = letters[index]  # A ---> Z
-            button = tk.Button(self.parent, text=char, width=5, height=1, bg='black', fg='white',
+            button = tk.Button(self, text=char, width=5, height=1, bg='black', fg='white',
                                relief=tk.GROOVE, command=lambda index=index, char=char: self.asciiButtonOnClick(index, char))
 
             # Finding the row and column (position) for each button.
@@ -56,16 +88,21 @@ class mainGame():
 
         # STATUS BUTTON
         # Used to tell the player if the won or lost.
-        self.statusLabel = tk.Label(self.parent, font=('Source', 18, 'bold'), width=self.width, bg='black', fg='white',
+        self.statusLabel = tk.Label(self, font=('Source', 18, 'bold'), width=WIDTH, bg='black', fg='white',
                                     relief=tk.GROOVE)
         self.row += 1
         self.statusLabel.grid(row=self.row, column=0, columnspan=COLUMN_SPLIT, pady=5)
 
         # RESET BUTTON
-        self.resetButton = tk.Button(self.parent, text='RESET', font=('Source', 18, 'bold'), width=self.width, bg='black', fg='white',
+        self.resetButton = tk.Button(self, text='RESET', font=('Source', 18, 'bold'), width=WIDTH, bg='black', fg='white',
                                      relief=tk.GROOVE, command=self.reset)
         self.row += 1
         self.resetButton.grid(row=self.row, column=0, columnspan=COLUMN_SPLIT)
+
+        self.row += 1
+        self.mainMenuButton = tk.Button(self, text='Main Menu', width=WIDTH, font=('Source', 18, 'bold'),
+                                  bg='black', fg='white', anchor=tk.CENTER, command=lambda: controller.switchToFrame(MainMenu))
+        self.mainMenuButton.grid(row=self.row, column=0, columnspan=COLUMN_SPLIT)
 
     def asciiButtonOnClick(self, index, char):
         self.buttons[index].configure(state='disabled') # Disable the button that was pressed
@@ -142,12 +179,9 @@ class mainGame():
 
 
 
-COLUMN_SPLIT = 9 # Width of the grid.
-ROW = 2 # A buffer used be the imageLabel and wordLabel, to give room for the alphabet buttons.
 
-if __name__ == '__main__':
-    root = tk.Tk()
-    root.title('Hangman - CoryEvans')
-    root.resizable(False, False)
-    gui = mainGame(root)
-    root.mainloop()
+root = Controller()
+root.title('Hangman - CoryEvans')
+root.geometry('415x574+234+234')
+root.resizable(False, False)
+root.mainloop()
