@@ -46,7 +46,7 @@ class mainGame():
             # rounding down index/COLUMN_SPLIT would go from 0 ---> 2 (3 different rows). ROW is just a buffer.
             self.row = math.floor((index/COLUMN_SPLIT)+ROW)
 
-            # Since I wanted 3 rows, and I have 26 buttons, COLUMN_SPLIT had to be 9, giving one buttons left over.
+            # Since I wanted 3 rows, and I have 26 buttons, COLUMN_SPLIT had to be 9, giving one missing button left over.
             # index % COLUMN_SPLIT would give the position until a new row is created.
             self.column = index % COLUMN_SPLIT
 
@@ -70,7 +70,7 @@ class mainGame():
     def asciiButtonOnClick(self, index, char):
         self.buttons[index].configure(state='disabled') # Disable the button that was pressed
 
-        wordIndexes = [] # list to hold the positions of the guessed letter in the word.
+        wordIndexes = [] # list to hold the positions of the guessed letter(s) in the word.
         if char in self.word:  # correct guess
             for charIndex in range(len(self.word)): # for each char in word:
                 if char == self.word[charIndex]: # if the guessed letter is in word:
