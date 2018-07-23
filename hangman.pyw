@@ -5,7 +5,8 @@ from string import ascii_uppercase
 
 WIDTH = 27 # used fot tk widgets.
 COLUMN_SPLIT = 9 # Width of the grid.
-ROW = 2 # A buffer used be the imageLabel and wordLabel, to give room for the alphabet buttons.
+ROW = 2 # A buffer used by the imageLabel and wordLabel, to give room for the alphabet buttons.
+FONT = ('Source', 18, 'bold')
 
 class Controller(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -27,12 +28,30 @@ class Controller(tk.Tk):
         frame = self.frames[f]
         frame.tkraise()
 
+
+
 class MainMenu(tk.Frame):
     def __init__(self, parent, controller):
+        global wordSet
         tk.Frame.__init__(self, parent)
-        self.startButton = tk.Button(self, text='Start Game', width=WIDTH, font=('Source', 18, 'bold'),
+
+        wordSetOptions = ['general', 'fruit']
+        wordSet = tk.StringVar(parent)
+        wordSet.set(wordSetOptions[0])
+
+        self.startButton = tk.Button(self, text='START GAME', width=WIDTH, font=FONT,
                                   bg='black', fg='white', anchor=tk.CENTER, command=lambda: controller.switchToFrame(mainGame))
         self.startButton.grid(row=0, column=0, columnspan=COLUMN_SPLIT)
+
+        self.wordSetLabel = tk.Label(self, text='Word list to use:', font=FONT)
+        self.wordSetLabel.grid(row=1, column=0, columnspan=5, pady=10)
+
+        self.wordSetMenu = tk.OptionMenu(self, wordSet, *wordSetOptions)
+        self.wordSetMenu.grid(row=1, column=5, columnspan=4, padx=10, pady=10, sticky='ew')
+
+        self.wordSetInfoLabel = tk.Label(self, text='After changing word list from \'{}\', press \'reset\' in-game.'.format(wordSetOptions[0]), font=('Source', 11))
+        self.wordSetInfoLabel.grid(row=2, column=0, columnspan=COLUMN_SPLIT)
+
 
 
 # main game class I put this in a class to be able to add different tk.Frames in the future.
@@ -57,7 +76,7 @@ class mainGame(tk.Frame):
         # A tk.Label which holds the word as underscores. (and with spaces in-between characters)
         # Example: C _ E _ _ T S
         # The actual word label witch holds the text.
-        self.wordLabel = tk.Label(self, text=self.text, width=WIDTH, font=('Source', 18, 'bold'),
+        self.wordLabel = tk.Label(self, text=self.text, width=WIDTH, font=FONT,
                                   bg='black', fg='white', anchor=tk.CENTER)
         self.wordLabel.grid(row=1, column=0, columnspan=COLUMN_SPLIT, pady=5)
 
@@ -88,19 +107,19 @@ class mainGame(tk.Frame):
 
         # STATUS BUTTON
         # Used to tell the player if the won or lost.
-        self.statusLabel = tk.Label(self, font=('Source', 18, 'bold'), width=WIDTH, bg='black', fg='white',
+        self.statusLabel = tk.Label(self, font=FONT, width=WIDTH, bg='black', fg='white',
                                     relief=tk.GROOVE)
         self.row += 1
         self.statusLabel.grid(row=self.row, column=0, columnspan=COLUMN_SPLIT, pady=5)
 
         # RESET BUTTON
-        self.resetButton = tk.Button(self, text='RESET', font=('Source', 18, 'bold'), width=WIDTH, bg='black', fg='white',
+        self.resetButton = tk.Button(self, text='RESET', font=FONT, width=WIDTH, bg='black', fg='white',
                                      relief=tk.GROOVE, command=self.reset)
         self.row += 1
         self.resetButton.grid(row=self.row, column=0, columnspan=COLUMN_SPLIT)
 
         self.row += 1
-        self.mainMenuButton = tk.Button(self, text='Main Menu', width=WIDTH, font=('Source', 18, 'bold'),
+        self.mainMenuButton = tk.Button(self, text='MAIN MENU', width=WIDTH, font=FONT,
                                   bg='black', fg='white', anchor=tk.CENTER, command=lambda: controller.switchToFrame(MainMenu))
         self.mainMenuButton.grid(row=self.row, column=0, columnspan=COLUMN_SPLIT)
 
@@ -148,8 +167,8 @@ class mainGame(tk.Frame):
         self.img = tk.PhotoImage(file=f'images/{imgID}.gif') # Open the image
         self.imgLabel.configure(image=self.img) # set the image to the imageLabel
 
-    def chooseWord(self): # when starting or reseting a game: pick a word from words.txt
-        with open('words.txt', 'r') as f:
+    def chooseWord(self): # when starting or reseting a game: pick a word from {wordSet}.txt
+        with open('words/{}.txt'.format(wordSet.get()), 'r') as f:
             words = f.read().split('\n') # split into list at each newline character.
             f.close()
         # random.choice picks a random item from an iterable.
