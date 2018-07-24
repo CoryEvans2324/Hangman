@@ -13,17 +13,17 @@ class Controller(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
 
         # Container to hold different frames.
-        container = tk.Frame(self)
-        container.pack(side='top', fill='both', expand=True)
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
+        self.container = tk.Frame(self)
+        self.container.pack(side='top', fill='both', expand=True)
+        self.container.grid_rowconfigure(0, weight=1)
+        self.container.grid_columnconfigure(0, weight=1)
 
         # Dictionary for holding different frames.
         self.frames = {}
         for f in [MainMenu, MainGame]:
-            frame = f(container, self)
+            frame = f(self.container, self)
             self.frames[f] = frame
-            frame.grid(row=0, column=0, stick='nsew')
+            frame.grid(row=0, column=0, sticky='nsew')
 
         # Start on MainMenu frame.
         self.switchToFrame(MainMenu)
@@ -32,6 +32,10 @@ class Controller(tk.Tk):
         frame = self.frames[f]
         frame.tkraise()
 
+
+    def wordSetTrace(self, *args):
+        print('Changed')
+        # TODO
 
 
 class MainMenu(tk.Frame):
@@ -43,6 +47,7 @@ class MainMenu(tk.Frame):
         wordSetOptions = ['general', 'fruit']
         wordSet = tk.StringVar(parent)
         wordSet.set(wordSetOptions[0])
+        wordSet.trace('w', controller.wordSetTrace)
 
         # Start button to switch to MainGame
         self.startButton = tk.Button(self, text='START GAME', width=WIDTH, font=FONT,
