@@ -10,7 +10,20 @@ All states (images) of the hung man are in the folder `images`.
 
 <br>
 
-## Functions
+## Functions and Variables
+
+### Global
+```
+import math (math.floor) is used to calculate the positions for the ascii buttons.
+import tkinter as tk #GUI stuff.
+import random (random.choice) is used to pick a random word.
+from string import ascii_uppercase is used for the ascii buttons.
+WIDTH is used by tk widgets.
+COLUMN_SPLIT is used by the tk widgets to space widgets across the grid.
+ROW is a buffer used by mainGame to give room for the ascii buttons.
+FONT is used by tk widgets to configure their font.
+
+```
 
 ### In class mainGame():
 
@@ -44,6 +57,8 @@ reset() is used to reset the game at any point. It chooses a new word and resets
 <br>
 
 ## TODO
+
+Automaticaly reset the main game when the wordSet is changed by the tk.OptionMenu.
 
 I want to add a main menu to my program. And for that I'll add a new branch on github.
 
