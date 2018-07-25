@@ -6,32 +6,42 @@ from string import ascii_uppercase
 WIDTH = 27 # used fot tk widgets.
 COLUMN_SPLIT = 9 # Width of the grid.
 ROW = 2 # A buffer used by the imageLabel and wordLabel, to give room for the alphabet buttons.
-FONT = ('Source', 18, 'bold')
+FONT = ('Source', 18, 'bold') # font data for lables & buttons.
 
 class Controller(tk.Tk):
     def __init__(self, *args, **kwargs):
+        # Call the __init__() of the inherited class. (tk.Tk)
         tk.Tk.__init__(self, *args, **kwargs)
 
         # Container to hold different frames.
-        self.container = tk.Frame(self)
-        self.container.pack(side='top', fill='both', expand=True)
-        self.container.grid_rowconfigure(0, weight=1)
-        self.container.grid_columnconfigure(0, weight=1)
+        self.mainFrame = tk.Frame(self)
 
-        # Dictionary for holding different frames.
+        # fill='both' makes sure the container takes up as much space as possible.
+        # if expand is set to a non-zero value makes sure the widget takes up as much space as it can.
+        self.mainFrame.pack(side='top', fill='both', expand=True)
+
+        # Having a weight on 1 fills the screen.
+        self.mainFrame.grid_rowconfigure(0, weight=1)
+        self.mainFrame.grid_columnconfigure(0, weight=1)
+
+        # Dictionary for holding different frames. MainMenu & MainGame
         self.frames = {}
         for f in [MainMenu, MainGame]:
-            frame = f(self.container, self)
+            # Create an instance of the class
+            frame = f(self.mainFrame, self)
+            # Add it to the dictionary
             self.frames[f] = frame
+            # Align/show the frame
             frame.grid(row=0, column=0, sticky='nsew')
 
-        # Start on MainMenu frame.
+        # Start on MainMenu frame. (Put this layer on top)
         self.switchToFrame(MainMenu)
 
     def switchToFrame(self, f):
+        # Select the frame
         frame = self.frames[f]
+        # Send frame to front of all frames. (Put this layer on top)
         frame.tkraise()
-
 
     def wordSetTrace(self, *args):
         # call the reset() function of MainGame.
@@ -41,12 +51,18 @@ class Controller(tk.Tk):
 class MainMenu(tk.Frame):
     def __init__(self, parent, controller):
         global wordSet # wordSet is defined in this class.
+
+        # Call the __init__() of the inherited class. (tk.Frame)
         tk.Frame.__init__(self, parent)
 
-        # different words list.
+        # different words list. (general.txt, fruit.txt)
         wordSetOptions = ['general', 'fruit']
-        wordSet = tk.StringVar(parent)
-        wordSet.set(wordSetOptions[0])
+        wordSet = tk.StringVar(parent) # create a str variable
+        wordSet.set(wordSetOptions[0]) # assign a value to it
+
+        # tk.StringVar.trace(option, callback)
+        # This function tracks the variable and runs a function on a specific event which has occurred.
+        # With option 'w', the callback funtion will be called whenever a value is writen to the variable. ('w' - 'write')
         wordSet.trace('w', controller.wordSetTrace)
 
         # Start button to switch to MainGame
@@ -54,14 +70,13 @@ class MainMenu(tk.Frame):
                                   bg='black', fg='white', anchor=tk.CENTER, command=lambda: controller.switchToFrame(MainGame))
         self.startButton.grid(row=0, column=0, columnspan=COLUMN_SPLIT)
 
+        # Label: Word list to use: <dropdownmenu>
         self.wordSetLabel = tk.Label(self, text='Word list to use:', font=FONT)
         self.wordSetLabel.grid(row=1, column=0, columnspan=5, pady=10)
 
+        # Drop down box for selecting a word list.
         self.wordSetMenu = tk.OptionMenu(self, wordSet, *wordSetOptions)
         self.wordSetMenu.grid(row=1, column=5, columnspan=4, padx=10, pady=10, sticky='ew')
-
-        self.wordSetInfoLabel = tk.Label(self, text='After changing word list from \'{}\', press \'reset\' in-game.'.format(wordSetOptions[0]), font=('Source', 11))
-        self.wordSetInfoLabel.grid(row=2, column=0, columnspan=COLUMN_SPLIT)
 
 
 
@@ -69,7 +84,9 @@ class MainMenu(tk.Frame):
 class MainGame(tk.Frame):
     # the __init__ function is called whenever a class object is created.
     def __init__(self, parent, controller):
+        # Call the __init__() of the inherited class. (tk.Frame)
         tk.Frame.__init__(self, parent)
+
         self.parent = parent # to be used later for other functions.
 
         # starting the game
