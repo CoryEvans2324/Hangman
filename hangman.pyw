@@ -34,8 +34,8 @@ class Controller(tk.Tk):
 
 
     def wordSetTrace(self, *args):
-        print('Changed')
-        # TODO
+        # call the reset() function of MainGame.
+        self.frames[MainGame].reset()
 
 
 class MainMenu(tk.Frame):
