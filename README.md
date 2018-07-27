@@ -25,10 +25,20 @@ FONT is used by tk widgets to configure their font.
 
 ```
 
-### In class mainGame():
+### In class Controller(tk.Tk):
 
 ```
-__init__() is called whenever a mainGame class is created. It is responsible for creating and displaying the buttons of that frame.
+__init__() is creates a container which holds both MainMenu and MainGame frames.
+switchToFrame() brings a frame forward.
+wordSetTrace() is a function called when the wordSet is changed. It called the reset function of the MainGame frame.
+Variables:
+    self.mainFrame holds both MainMenu and MainGame frames
+```
+
+### In class MainGame(tk.Frame):
+
+```
+__init__() is called whenever a MainGame class is created. It is responsible for creating99 and displaying the buttons of that frame.
 Variables:
     self.width is used for the tk Labels
     self.wrongCounter is used to keep track of incorrect guesses and for picking images.
