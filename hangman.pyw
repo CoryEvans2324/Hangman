@@ -196,7 +196,7 @@ class MainGame(tk.Frame):
         self.imgLabel.configure(image=self.img) # set the image to the imageLabel
 
     def chooseWord(self): # when starting or reseting a game: pick a word from {wordSet}.txt
-        with open('words/{}.txt'.format(wordSet.get()), 'r') as f:
+        with open(f'words/{wordSet.get()}.txt', 'r') as f:
             words = f.read().split('\n') # split into list at each newline character.
             f.close()
         # random.choice picks a random item from an iterable.
@@ -223,7 +223,6 @@ class MainGame(tk.Frame):
         # enable all buttons at start of game
         for button in self.buttons:
             button.configure(state='normal')
-
 
 
 
