@@ -40,7 +40,7 @@ Variables:
 ```
 __init__() is called whenever a MainGame class is created. It is responsible for creating and displaying the buttons of that frame.
 Variables:
-    self.startButton is a button which calls controller.switchFrame(MainGame). To start the game.
+    self.startButton is a button which calls controller.switchToFrame(MainGame). To start the game.
     self.wordSetLabel is a label which holds the text "Word list to use:".
     self.wordSetMenu is a tk.OptionMenu (dropdown menu) which allows the user to pick different wordSet(s).
 ```
