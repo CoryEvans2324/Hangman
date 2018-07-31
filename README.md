@@ -23,22 +23,32 @@ COLUMN_SPLIT is used by the tk widgets to space widgets across the grid.
 ROW is a buffer used by mainGame to give room for the ascii buttons.
 FONT is used by tk widgets to configure their font.
 
+wordSet is used for picking a category. It is a tk.StringVar object.
 ```
 
 ### In class Controller(tk.Tk):
 
 ```
-__init__() is creates a container which holds both MainMenu and MainGame frames.
+__init__() creates a container which holds both MainMenu and MainGame frames.
 switchToFrame() brings a frame forward.
 wordSetTrace() is a function called when the wordSet is changed. It called the reset function of the MainGame frame.
 Variables:
     self.mainFrame holds both MainMenu and MainGame frames
 ```
 
+### In class MainMenu(tk.Frame):
+```
+__init__() is called whenever a MainGame class is created. It is responsible for creating and displaying the buttons of that frame.
+Variables:
+    self.startButton is a button which calls controller.switchFrame(MainGame). To start the game.
+    self.wordSetLabel is a label which holds the text "Word list to use:".
+    self.wordSetMenu is a tk.OptionMenu (dropdown menu) which allows the user to pick different wordSet(s).
+```
+
 ### In class MainGame(tk.Frame):
 
 ```
-__init__() is called whenever a MainGame class is created. It is responsible for creating99 and displaying the buttons of that frame.
+__init__() is called whenever a MainGame class is created. It is responsible for creating and displaying the buttons of that frame.
 Variables:
     self.width is used for the tk Labels
     self.wrongCounter is used to keep track of incorrect guesses and for picking images.
@@ -66,7 +76,7 @@ reset() is used to reset the game at any point. It chooses a new word and resets
 
 <br>
 
-## TODO
+## TODO / IDEAS
 
 #### Tasks I have completed will be ~~crossed out~~.
 
@@ -78,3 +88,5 @@ reset() is used to reset the game at any point. It chooses a new word and resets
 * Names
 * ~~Food~~
 * Dinosaurs
+
+Add colour feedback for asciiButtons (Change colour of letters [green/red] on button press).
