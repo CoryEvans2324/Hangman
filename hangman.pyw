@@ -156,6 +156,7 @@ class MainGame(tk.Frame):
 
         wordIndexes = [] # list to hold the positions of the guessed letter(s) in the word.
         if char in self.word:  # correct guess
+            self.buttons[index].configure(bg='#32dc32') # set button colour to light green.
             for charIndex in range(len(self.word)): # for each char in word:
                 if char == self.word[charIndex]: # if the guessed letter is in word:
                     wordIndexes.append(charIndex) # append the index to the list.
@@ -169,6 +170,7 @@ class MainGame(tk.Frame):
                     button.configure(state='disabled')
 
         else:  # incorrect guess
+            self.buttons[index].configure(bg='#dc3232') # set button colour to light red
             self.wrongCounter += 1
             self.changeImg(self.wrongCounter)
 
@@ -220,9 +222,9 @@ class MainGame(tk.Frame):
         self.wrongCounter = 0 # reset counter
         self.changeImg(self.wrongCounter) # update image
 
-        # enable all buttons at start of game
+        # enable all buttons at start of game and change background colour.
         for button in self.buttons:
-            button.configure(state='normal')
+            button.configure(state='normal', bg='black')
 
 
 

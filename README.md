@@ -89,4 +89,4 @@ reset() is used to reset the game at any point. It chooses a new word and resets
 * ~~Food~~
 * Dinosaurs
 
-Add colour feedback for asciiButtons (Change colour of letters [green/red] on button press).
+~~Add colour feedback for asciiButtons (Change colour of letters [green/red] on button press).~~
