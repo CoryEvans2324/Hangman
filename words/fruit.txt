@@ -6,10 +6,8 @@ berry
 cantaloupe
 cherry
 citron
-citrus
 coconut
 date
-fig
 grape
 guava
 kiwi
